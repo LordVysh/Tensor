@@ -7,9 +7,23 @@ class Function
 
 };
 
-class Tensor
+class UpperIndex
 {
 
+};
+
+class LowerIndex
+{
+
+};
+
+class Tensor
+{
+private:
+	std::vector<UpperIndex> upperIndices;
+	std::vector<LowerIndex> lowerIndices;
+
+public:
 	Tensor()
 	{
 		std::string input = "";
@@ -41,7 +55,27 @@ class Tensor
 			nlpE->End();
 		}
 	}
-public:
+
+	void addUpperIndex(UpperIndex index)
+	{
+		upperIndices.push_back(index);
+	}
+
+	void removeUpperIndex(int N)
+	{
+		upperIndices.erase(upperIndices.begin() + N);
+	}
+
+	void addLowerIndex(LowerIndex index)
+	{
+		lowerIndices.push_back(index);
+	}
+
+	void removeLowerIndex(int N)
+	{
+		lowerIndices.erase(lowerIndices.begin() + N);
+	}
+
 	Function getFirstDerivative()
 	{
 		

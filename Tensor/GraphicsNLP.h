@@ -5,6 +5,7 @@ class NLP_Engine
 {
 private:
 	int parseStatus = -1;
+	std::string identifier;
 public:
 	NLP_Engine()
 	{
@@ -32,6 +33,11 @@ public:
 	int getParseStatus()
 	{
 		return parseStatus;
+	}
+
+	std::string getIdentifier()
+	{
+		return identifier;
 	}
 
 	void throwError()

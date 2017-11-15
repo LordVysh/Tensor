@@ -2,7 +2,47 @@
 #include "group_includes.h"
 #include "GraphicsNLP.h"
 
-class Function
+class Objects
+{
+
+};
+
+class DataSet
+{
+private:
+	std::map<std::string, std::vector<Objects>> kv;
+public:
+	void addKey(std::string key)
+	{
+
+	}
+
+	void attach(std::string key, std::vector<Objects> objects)
+	{
+		for (auto& o : objects)
+		{
+			kv[key].push_back(o);
+		}
+	}
+};
+
+class Event
+{
+
+};
+
+class EventQueue
+{
+private:
+	std::vector<Event> events;
+public:
+	EventQueue()
+	{
+
+	}
+};
+
+class Function : Objects 
 {
 public:
 	Function()
@@ -33,7 +73,7 @@ public:
 	}
 };
 
-class UpperIndex
+class UpperIndex : Objects
 {
 public:
 	UpperIndex()
@@ -47,7 +87,7 @@ public:
 	}
 };
 
-class LowerIndex
+class LowerIndex : Objects
 {
 public:
 	LowerIndex()
@@ -61,11 +101,14 @@ public:
 	}
 };
 
-class Tensor
+class Tensor : Objects
 {
 private:
+	std::vector<Objects> tensorObjects;
 	std::vector<UpperIndex> upperIndices;
 	std::vector<LowerIndex> lowerIndices;
+	std::string identifier;
+	int parseStatus = -1;
 
 public:
 	Tensor()
@@ -76,6 +119,8 @@ public:
 		nlpE->Parse(input);
 		if (nlpE->getParseStatus() != -1)
 		{
+			parseStatus = nlpE->getParseStatus();
+			identifier = nlpE->getIdentifier();
 			nlpE->End();
 		}
 		else
@@ -148,4 +193,47 @@ public:
 	{
 
 	}
+
+	bool isMalformed()
+	{
+		if (parseStatus != -1)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	std::string getIdentifier()
+	{
+		return identifier;
+	}
+
+	std::vector<Objects> getObjects()
+	{
+		return tensorObjects;
+	}
+};
+
+class SessionManager
+{
+private:
+	EventQueue *eq = new EventQueue();
+	DataSet *data = new DataSet();
+public:
+	SessionManager()
+	{
+
+	}
+
+	void addTensor(std::string input)
+	{
+		Tensor *candidate = new Tensor(input);
+		if (!candidate->isMalformed())
+		{
+			data->addKey(candidate->getIdentifier());
+			data->attach(candidate->getIdentifier(), candidate->getObjects());
+		}
+
+	}
+
 };

@@ -4,17 +4,61 @@
 
 class Function
 {
+public:
+	Function()
+	{
 
+	}
+
+	Function(std::string input)
+	{
+		NLP_Engine *nlpE = new NLP_Engine();
+		nlpE->Begin();
+		nlpE->Parse(input);
+		if (nlpE->getParseStatus() != -1)
+		{
+			nlpE->End();
+		}
+		else
+		{
+			nlpE->throwError();
+			nlpE->End();
+		}
+		delete nlpE;
+	}
+
+	~Function()
+	{
+
+	}
 };
 
 class UpperIndex
 {
+public:
+	UpperIndex()
+	{
 
+	}
+
+	~UpperIndex()
+	{
+
+	}
 };
 
 class LowerIndex
 {
+public:
+	LowerIndex()
+	{
 
+	}
+
+	~LowerIndex()
+	{
+
+	}
 };
 
 class Tensor
@@ -39,6 +83,7 @@ public:
 			nlpE->throwError();
 			nlpE->End();
 		}
+		delete nlpE;
 	}
 	Tensor(std::string input)
 	{
@@ -53,6 +98,19 @@ public:
 		{
 			nlpE->throwError();
 			nlpE->End();
+		}
+		delete nlpE;
+	}
+
+	~Tensor()
+	{
+		for (auto& u : upperIndices)
+		{
+			u.~UpperIndex();
+		}
+		for (auto& l : lowerIndices)
+		{
+			l.~LowerIndex();
 		}
 	}
 

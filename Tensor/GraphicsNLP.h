@@ -11,6 +11,11 @@ public:
 
 	}
 
+	~NLP_Engine()
+	{
+
+	}
+
 	void Begin()
 	{
 
